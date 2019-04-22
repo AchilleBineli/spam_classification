@@ -4,6 +4,7 @@ from torch.nn import functional as F
 from torch.autograd import Variable
 
 class LSTMClassifier(nn.Module):
+    
     def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_length, weights):
         super(LSTMClassifier, self).__init__()
         self.batch_size = batch_size
@@ -22,16 +23,13 @@ class LSTMClassifier(nn.Module):
         input = self.word_embeddings(input_sentence)
         input = input.permute(1, 0, 2)
         if batch_size is None:
-            h_0 = Variable(torch.zeros(1, self.batch_size, self.hidden_size))
-            c_0 = Variable(torch.zeros(1, self.batch_size, self.hidden_size))
+            h_first = Variable(torch.zeros(1, self.batch_size, self.hidden_size))
+            c_first = Variable(torch.zeros(1, self.batch_size, self.hidden_size))
         else:
-            h_0 = Variable(torch.zeros(1, batch_size, self.hidden_size))
-            c_0 = Variable(torch.zeros(1, batch_size, self.hidden_size))
-        output, (final_hidden_state, final_cell_state) = self.lstm(input, (h_0, c_0))
+            h_first = Variable(torch.zeros(1, batch_size, self.hidden_size))
+            c_first = Variable(torch.zeros(1, batch_size, self.hidden_size))
+        output, (final_hidden_state, final_cell_state) = self.lstm(input, (h_first, c_first))
         output = self.dropout_layer(final_hidden_state[-1])
         output = self.hidden2out(output)
         final_output = self.softmax(output)
         return final_output
-
-    def name(self):
-        return "RCNN"
