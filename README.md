@@ -10,8 +10,8 @@ To run the program :
 SVM model : 
 $python svm.py  
 or   
-$python3 svm.py . 
+$python3 svm.py   
 
-For the other deep learning models . 
-$python main.py . 
-$python3 main.py . 
+For the other deep learning models   
+$python main.py   
+$python3 main.py   
