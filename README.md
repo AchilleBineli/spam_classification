@@ -1,11 +1,16 @@
 Spam Classification
+==
 
-First download all the requirements to run the project:
-(project_dir)$ pip install pip-reqs
-(project_dir)$ pipreqs install pip-reqs
-(project_dir)$ pip3 install -r spam_classification/requirements.txt 
-(prendra quelques minutes)
+=
 
+
+
+First download all the requirements to run the project:  
+(project_dir)$ pip install pip-reqs  
+(project_dir)$ pipreqs install pip-reqs  
+(project_dir)$ pip3 install -r spam_classification/requirements.txt   
+(prendra quelques minutes)  
+  
 
 Requirements
 pandas==0.23.0
