@@ -145,13 +145,9 @@ def experiment(model, epochs=3):
 
 
 ################### MAIN FUNCTION ###################
-data_svm = pd.read_csv('./data/smsspamcollection/SMSSpamCollection',
-                       sep='\t',
-                       header=None,
-                       names=['label', 'sms_message'])
-svm(data_svm)
+
 ####### DATA VISUALISATON ######
-# data_visualization()
+data_visualization()
 
 learning_rate = 2e-5
 batch_size = 32
