@@ -15,3 +15,7 @@ $python3 svm.py
 For the other deep learning models   
 $python main.py   
 $python3 main.py   
+
+
+When the program main.py is running, you have to:  
+-close each figure that pop up so that the program can continue  
