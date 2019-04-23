@@ -1,4 +1,4 @@
-#Spam Classification
+Spam Classification
 
 First download all the requirements to run the project:
 (project_dir)$ pip install pip-reqs
