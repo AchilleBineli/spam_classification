@@ -1,4 +1,4 @@
-#Spam Classification
+Spam Classification
 
 We need version 2.1.2 of Keras
 
