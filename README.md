@@ -2,7 +2,7 @@ Spam Classification
 ==
 
 Download the libraries for the project
-==
+===
 
 First download all the requirements to run the project:  
 (project_dir)$ pip install pip-reqs  
@@ -11,7 +11,7 @@ First download all the requirements to run the project:
 (prendra quelques minutes)
 
 Requirements 
-==
+===
 
 pandas==0.23.0  
 numpy==1.15.4  
@@ -25,7 +25,7 @@ matplotlib==2.2.2
 scikit_learn==0.20.3  
 
 Attention for keras
-==
+===
 (If you cannot install keras with pipreqs): 
 We need version 2.1.2 of Keras
 To uninstall your version of Keras and reinstall Keras v2.1.2 :   
@@ -34,7 +34,7 @@ $pip install keras==2.1.2
 
 
 run the program
-==
+===
 SVM model : 
 $python svm.py  
 or   
@@ -50,7 +50,7 @@ When the program main.py is running, you have to:
 
 
 Contacts
-==
+===
 - mariem.jelassi@polymtl.ca
 - charafeddine.talal@polymtl.ca
 - whuhuyongbing@gmail.com 
