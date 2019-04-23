@@ -13,18 +13,18 @@ Requirements
 -----
 
 - pandas==0.23.0  
--numpy==1.15.4  
--torch==1.0.1.post2  
--texttable==1.6.1  
--torchtext==0.3.1  
--tensorflow==1.1.0  
--seaborn==0.8.1  
--Keras==2.1.2  
--matplotlib==2.2.2  
--scikit_learn==0.20.3  
+- numpy==1.15.4  
+- torch==1.0.1.post2  
+- texttable==1.6.1  
+- torchtext==0.3.1  
+- tensorflow==1.1.0  
+- seaborn==0.8.1  
+- Keras==2.1.2  
+- matplotlib==2.2.2  
+- scikit_learn==0.20.3  
 
 Attention for keras
-===
+-----
 (If you cannot install keras with pipreqs): 
 We need version 2.1.2 of Keras
 To uninstall your version of Keras and reinstall Keras v2.1.2 :   
@@ -34,16 +34,16 @@ $pip install keras==2.1.2
 
 run the program
 ===
-SVM model : 
+- SVM model : 
 $python svm.py  
 or   
 $python3 svm.py   
 
-For the other deep learning models   
+- For the other deep learning models   
 $python main.py   
 $python3 main.py   
 
-marks:
+- marks:
 When the program main.py is running, you have to:  
 -close each figure that pop up so that the program can continue  
 
