@@ -34,9 +34,8 @@ $pip install keras==2.1.2
 
 run the program
 -----
-- SVM model : 
-$python svm.py  
-or   
+- SVM model :   
+$python svm.py    
 $python3 svm.py   
 
 - For the other deep learning models   
