@@ -2,7 +2,7 @@ Spam Classification
 ==
 
 Download the libraries for the project
-=====
+----
 
 First download all the requirements to run the project:  
 (project_dir)$ pip install pip-reqs  
