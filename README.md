@@ -12,7 +12,7 @@ Download the libraries for the project
 Requirements 
 -----
 
--pandas==0.23.0  
+- pandas==0.23.0  
 -numpy==1.15.4  
 -torch==1.0.1.post2  
 -texttable==1.6.1  
