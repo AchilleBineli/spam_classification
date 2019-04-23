@@ -43,8 +43,8 @@ $python main.py
 $python3 main.py   
 
 - marks:
-When the program main.py is running, you have to:  
--close each figure that pop up so that the program can continue  
+When the program main.py is running, you have to:    
+close each figure that pop up so that the program can continue  
 
 
 Contacts
