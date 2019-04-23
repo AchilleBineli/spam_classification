@@ -3,26 +3,25 @@ Spam Classification
 
 Download the libraries for the project
 -----
-
-First download all the requirements to run the project:  
+ 
 (project_dir)$ pip install pip-reqs  
 (project_dir)$ pipreqs install pip-reqs  
 (project_dir)$ pip3 install -r spam_classification/requirements.txt   
 (prendra quelques minutes)
 
 Requirements 
-===
+-----
 
-pandas==0.23.0  
-numpy==1.15.4  
-torch==1.0.1.post2  
-texttable==1.6.1  
-torchtext==0.3.1  
-tensorflow==1.1.0  
-seaborn==0.8.1  
-Keras==2.1.2  
-matplotlib==2.2.2  
-scikit_learn==0.20.3  
+-pandas==0.23.0  
+-numpy==1.15.4  
+-torch==1.0.1.post2  
+-texttable==1.6.1  
+-torchtext==0.3.1  
+-tensorflow==1.1.0  
+-seaborn==0.8.1  
+-Keras==2.1.2  
+-matplotlib==2.2.2  
+-scikit_learn==0.20.3  
 
 Attention for keras
 ===
