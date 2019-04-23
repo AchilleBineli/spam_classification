@@ -25,7 +25,7 @@ Requirements
 
 Attention for keras
 -----
-- (If you cannot install keras with pipreqs): 
+- (If you cannot install keras with pipreqs):  
 We need version 2.1.2 of Keras
 - To uninstall your version of Keras and reinstall Keras v2.1.2 :   
 $pip uninstall keras   
