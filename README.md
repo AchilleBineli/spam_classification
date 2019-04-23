@@ -4,10 +4,10 @@ Spam Classification
 Download the libraries for the project
 -----
  
-(project_dir)$ pip install pip-reqs  
-(project_dir)$ pipreqs install pip-reqs  
-(project_dir)$ pip3 install -r spam_classification/requirements.txt   
-(prendra quelques minutes)
+- (project_dir)$ pip install pip-reqs  
+- (project_dir)$ pipreqs install pip-reqs  
+- (project_dir)$ pip3 install -r spam_classification/requirements.txt   
+- (prendra quelques minutes)
 
 Requirements 
 -----
@@ -25,15 +25,15 @@ Requirements
 
 Attention for keras
 -----
-(If you cannot install keras with pipreqs): 
+- (If you cannot install keras with pipreqs): 
 We need version 2.1.2 of Keras
-To uninstall your version of Keras and reinstall Keras v2.1.2 :   
+- To uninstall your version of Keras and reinstall Keras v2.1.2 :   
 $pip uninstall keras   
 $pip install keras==2.1.2   
 
 
 run the program
-===
+-----
 - SVM model : 
 $python svm.py  
 or   
@@ -49,7 +49,7 @@ When the program main.py is running, you have to:
 
 
 Contacts
-===
+-----
 - mariem.jelassi@polymtl.ca
 - charafeddine.talal@polymtl.ca
 - whuhuyongbing@gmail.com 
