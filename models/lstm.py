@@ -2,14 +2,16 @@
 from keras.layers import SimpleRNN, Embedding, Dense, LSTM
 from keras.models import Sequential
 import time
+import numpy as np
 
 
 
-def LSTMClassifer(epochs):
-#     texts_train,y_train,texts_test,y_test = data
+def LSTMClassifer(data,epochs=3):
+    epochs = epochs
+    texts_train,y_train,texts_test,y_test = data
     debut = time.time()
     lstm_para={}
-    texts_train,y_train,texts_test,y_test
+    # texts_train,y_train,texts_test,y_test
     model = Sequential()
     model.add(Embedding(10000, 32))
     model.add(LSTM(32))
@@ -26,6 +28,6 @@ def LSTMClassifer(epochs):
     lstm_para["all_train_loss"] = history_ltsm.history['loss']
     lstm_para["all_val_loss"] = history_ltsm.history['val_loss']
     lstm_para["test_loss"] = acc[0]
-    lstm_para["test_acc"] = acc[1]
+    lstm_para["test_acc"] = acc[1]*100
     lstm_para["time_needed"] = fini - debut
     return lstm_para

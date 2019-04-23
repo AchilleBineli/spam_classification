@@ -3,13 +3,16 @@ from torchtext import data
 from torchtext import datasets
 from torchtext.vocab import Vectors, GloVe
 from numpy.random import RandomState
-
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import seaborn as sns; sns.set()
 import tensorflow as tf
+import numpy as np
 
-def load_dataset(test_sen=None): 
+
+def load_dataset(test_sen=None):
+    data_origin = {}
+    
     
     def _load_data_torch_text():
         tokenize = lambda x: x.split()
@@ -28,11 +31,13 @@ def load_dataset(test_sen=None):
         train_data, valid_data = train_data.split() 
         train_iter, valid_iter, test_iter = data.BucketIterator.splits((train_data, valid_data, test_data), batch_size=32, sort_key=lambda x: len(x.Text), repeat=False, shuffle=True)
         vocab_size = len(TEXT.vocab)
-        TEXT, vocab_size, word_embeddings, train_iter, valid_iter, test_iter = _load_data_torch_text()
- 
+        
+        return TEXT, vocab_size, word_embeddings, train_iter, valid_iter, test_iter
+    TEXT, vocab_size, word_embeddings, train_iter, valid_iter, test_iter = _load_data_torch_text()
+    data_origin["from_torch_text"] = [TEXT, vocab_size, word_embeddings, train_iter, valid_iter, test_iter]
     
     def _load_data_pd():
-        data = pd.read_csv("./data/spam.csv")
+        data = pd.read_csv("./data/SPAM text message 20170820 - Data.csv")
         texts = []
         labels = []
         for i, label in enumerate(data['Category']):
@@ -81,10 +86,6 @@ def load_dataset(test_sen=None):
         y_test = labels[training_samples:]
         
         return texts_train,y_train,texts_test,y_test
-
-    data_origin = {}
-    TEXT, vocab_size, word_embeddings, train_iter, valid_iter, test_iter = _load_data_torch_text()
-    data_origin["from_torch_text"] = [TEXT, vocab_size, word_embeddings, train_iter, valid_iter, test_iter]
     texts_train,y_train,texts_test,y_test = _load_data_pd()
     data_origin["from_pd"] = [texts_train,y_train,texts_test,y_test]
     

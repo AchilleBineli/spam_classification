@@ -15,9 +15,9 @@ class RCNN(nn.Module):
         
         self.word_embeddings = nn.Embedding(vocab_size, embedding_length)
         self.word_embeddings.weight = nn.Parameter(weights, requires_grad=False) 
-        self.dropout = 0.5
+        self.dropout = 0.8
         self.lstm = nn.LSTM(embedding_length, hidden_size, dropout=self.dropout, bidirectional=True)
-        self.W2 = nn.Linear(3*hidden_size+embedding_length, hidden_size)
+        self.W2 = nn.Linear(2*hidden_size+embedding_length, hidden_size)
         self.label = nn.Linear(hidden_size, output_size)
         
     def forward(self, input_sentence, batch_size=None):

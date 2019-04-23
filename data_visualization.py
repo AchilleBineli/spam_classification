@@ -6,7 +6,7 @@ import pandas as pd
 
 def data_visualization():
     # Dataset from - https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection
-    data = pd.read_csv('./data/SMSSpamCollection',
+    data = pd.read_csv('./data/smsspamcollection/SMSSpamCollection',
                        sep='\t',
                        header=None,
                        names=['label', 'sms_message'])

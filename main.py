@@ -3,10 +3,6 @@ import os
 import sys
 import torch
 from torch.nn import functional as F
-import numpy as np
-from torchtext import data
-from torchtext import datasets
-from torchtext.vocab import Vectors, GloVe
 import torch.nn as nn
 from torch.autograd import Variable
 import time
@@ -14,46 +10,33 @@ import matplotlib.pyplot as plt
 import texttable as tt
 import pandas as pd 
 import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
 from string import punctuation
 import seaborn as sns; sns.set()
-from sklearn import svm
-from keras.layers import  Embedding
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
-import models.lstm
-import models.rcnn
-import models.cnn
-import models.svm
-
-from data_visualization import data_visualization
+import numpy as np
+import seaborn as sns; sns.set()
 from load_data import load_dataset
+from models.lstm import LSTMClassifer
+from models.cnn import CNN
+from models.rcnn import RCNN
+from data_visualization import data_visualization
+from models.svm import svm
 
 
-
-
-
-
-
-
-
-#########################################TRAIN FUNCTIONS##################################################################################
-#############################################################################################################################################################################################################################
+######################################TRAIN FUNCTIONS######################################
 
 def clip_gradient(model, clip_value):
     params = list(filter(lambda p: p.grad is not None, model.parameters()))
-    for para in params:
-        para.grad.data.clamp_(-clip_value, clip_value)
+    for p in params:
+        p.grad.data.clamp_(-clip_value, clip_value)
     
-def train_model(model, train_batch, epoch):
-    all_epoch_loss = 0
-    all_epoch_acc = 0
+def train_model(model, train_iter, epoch):
+    total_epoch_loss = 0
+    total_epoch_acc = 0
 
     optim = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
     steps = 0
     model.train()
-    for idx, batch in enumerate(train_batch):
+    for idx, batch in enumerate(train_iter):
         text = batch.Text[0]
         target = batch.Label
         target = torch.autograd.Variable(target).long()
@@ -72,14 +55,14 @@ def train_model(model, train_batch, epoch):
         if steps % 100 == 0:
             print (f'Epoch: {epoch+1}, Idx: {idx+1}, Training Loss: {loss.item():.4f}, Training Accuracy: {acc.item(): .2f}%')
         
-        all_epoch_loss += loss.item()
-        all_epoch_acc += acc.item()
+        total_epoch_loss += loss.item()
+        total_epoch_acc += acc.item()
         
-    return all_epoch_loss/len(train_batch), all_epoch_acc/len(train_batch)
+    return total_epoch_loss/len(train_iter), total_epoch_acc/len(train_iter)
 
 def eval_model(model, val_iter):
-    all_epoch_loss = 0
-    all_epoch_acc = 0
+    total_epoch_loss = 0
+    total_epoch_acc = 0
     model.eval()
     with torch.no_grad():
         for idx, batch in enumerate(val_iter):
@@ -92,20 +75,13 @@ def eval_model(model, val_iter):
             loss = loss_fn(prediction, target)
             num_corrects = (torch.max(prediction, 1)[1].view(target.size()).data == target.data).sum()
             acc = 100.0 * num_corrects/len(batch)
-            all_epoch_loss += loss.item()
-            all_epoch_acc += acc.item()
+            total_epoch_loss += loss.item()
+            total_epoch_acc += acc.item()
 
-    return all_epoch_loss/len(val_iter), all_epoch_acc/len(val_iter)
+    return total_epoch_loss/len(val_iter), total_epoch_acc/len(val_iter)
     
 
-learning_rate = 2e-5
-batch_size = 32
-output_size = 2
-hidden_size = 256
-embedding_length = 300
-
-
-###################EXPERIMENTS#################
+###############EXPERIMENTS#################
 
 def experiment(model, epochs=3):
 
@@ -135,7 +111,7 @@ def experiment(model, epochs=3):
     time_needed = None
     
     if model is "LSTMClassifier":
-        para = LSTMClassifer2(epochs=epochs)    
+        para = LSTMClassifer(epochs=epochs,data=data_spam_ham["from_pd"])   
     else:
         debut = time.time()
         model = model(batch_size, output_size, hidden_size, vocab_size, embedding_length, word_embeddings)
@@ -169,23 +145,34 @@ def experiment(model, epochs=3):
 
 
 ################### MAIN FUNCTION ###################
+data_svm = pd.read_csv('./data/smsspamcollection/SMSSpamCollection',
+                       sep='\t',
+                       header=None,
+                       names=['label', 'sms_message'])
+svm(data_svm)
+####### DATA VISUALISATON ######
+# data_visualization()
+
+learning_rate = 2e-5
+batch_size = 32
+output_size = 2
+hidden_size = 256
+embedding_length = 300
+#LODA DATA
+data_spam_ham = load_dataset()
+texts_train,y_train,texts_test,y_test = data_spam_ham["from_pd"]
+TEXT, vocab_size, word_embeddings, train_iter, valid_iter, test_iter = data_spam_ham["from_torch_text"]
 
 
-################# SVM ##############################
-svm(data)
-
-####################DEEP LEARNING ###################
-
-TEXT, vocab_size, word_embeddings, train_batch, valid_batch, test_batch = load_dataset()
 photo_para = {}
 model_list = {}
-model_list['LSTMClassifier'] = LSTMClassifier
+model_list['LSTMClassifier'] = 'LSTMClassifier'
 model_list['RCNN'] = RCNN
 model_list["CNN"] = CNN
 
 loss_fn = F.cross_entropy
 for model in model_list:
-    para = experiment(model_list[model],epochs=2)
+    para = experiment(model_list[model],epochs=10)
     photo_para[model] = para
 
 ##########################################TABLE COMPARING DIFFERENT MODELS###############################
@@ -200,17 +187,15 @@ for para in photo_para:
 s = tab.draw()
 print(s)  
 
-
-
 ############################## the comparazition of precision of different models ##############
 ############################################################################################
 fig = plt.figure()
-plt.title("the comparazition of precision of different models")
+plt.title("Models with different precision")
 plt.ylabel('Accuracy')
 plt.xlabel('Epoch')
 
 for para in photo_para:
-    plt.xticks(np.arange(1,len(photo_para[para]["all_train_acc"])+1),1)
+    plt.xticks(np.arange(1,len(photo_para[para]["all_train_acc"])+1))
     plt.plot(np.arange(1,len(photo_para[para]["all_train_acc"])+1),photo_para[para]["all_train_acc"],label=para)
 
 plt.legend()
