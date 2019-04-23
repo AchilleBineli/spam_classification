@@ -1,35 +1,31 @@
-import torch
-from torch import nn
-from torch.nn import functional as F
-from torch.autograd import Variable
 
-class LSTMClassifier(nn.Module):
+from keras.layers import SimpleRNN, Embedding, Dense, LSTM
+from keras.models import Sequential
+import time
+
+
+
+def LSTMClassifer(epochs):
+#     texts_train,y_train,texts_test,y_test = data
+    debut = time.time()
+    lstm_para={}
+    texts_train,y_train,texts_test,y_test
+    model = Sequential()
+    model.add(Embedding(10000, 32))
+    model.add(LSTM(32))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
+    history_ltsm = model.fit(texts_train, y_train, epochs=epochs, batch_size=60, validation_split=0.2)
     
-    def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_length, weights):
-        super(LSTMClassifier, self).__init__()
-        self.batch_size = batch_size
-        self.output_size = output_size
-        self.hidden_size = hidden_size
-        self.vocab_size = vocab_size
-        self.embedding_length = embedding_length
-        self.word_embeddings = nn.Embedding(vocab_size, embedding_length)# Initializing the look-up table.
-        self.word_embeddings.weight = nn.Parameter(weights, requires_grad=False) # Assigning the look-up table to the pre-trained GloVe word embedding.
-        self.lstm = nn.LSTM(embedding_length, hidden_size)
-        self.hidden2out = nn.Linear(hidden_size, output_size)
-        self.softmax = nn.LogSoftmax()
-        self.dropout_layer = nn.Dropout(p=0.2)
-
-    def forward(self, input_sentence, batch_size=None):
-        input = self.word_embeddings(input_sentence)
-        input = input.permute(1, 0, 2)
-        if batch_size is None:
-            h_first = Variable(torch.zeros(1, self.batch_size, self.hidden_size))
-            c_first = Variable(torch.zeros(1, self.batch_size, self.hidden_size))
-        else:
-            h_first = Variable(torch.zeros(1, batch_size, self.hidden_size))
-            c_first = Variable(torch.zeros(1, batch_size, self.hidden_size))
-        output, (final_hidden_state, final_cell_state) = self.lstm(input, (h_first, c_first))
-        output = self.dropout_layer(final_hidden_state[-1])
-        output = self.hidden2out(output)
-        final_output = self.softmax(output)
-        return final_output
+    pred = model.predict_classes(texts_test)
+    acc = model.evaluate(texts_test, y_test)
+    proba_ltsm = model.predict_proba(texts_test)
+    fini = time.time()
+    lstm_para["all_train_acc"] = (np.array(history_ltsm.history['acc'])*100).tolist()
+    lstm_para["all_val_acc"] = (np.array(history_ltsm.history['val_acc'])*100).tolist()
+    lstm_para["all_train_loss"] = history_ltsm.history['loss']
+    lstm_para["all_val_loss"] = history_ltsm.history['val_loss']
+    lstm_para["test_loss"] = acc[0]
+    lstm_para["test_acc"] = acc[1]
+    lstm_para["time_needed"] = fini - debut
+    return lstm_para

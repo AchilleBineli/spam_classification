@@ -2,9 +2,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 from string import punctuation
 import numpy as np
+import pandas as pd
 
-def data_visualization(data):
-
+def data_visualization():
+    # Dataset from - https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection
+    data = pd.read_csv('./data/SMSSpamCollection',
+                       sep='\t',
+                       header=None,
+                       names=['label', 'sms_message'])
     #the primary information of the data set
     print(data.head())
     print()
@@ -20,12 +25,18 @@ def data_visualization(data):
     plt.legend(["Ham", "Spam"])
     plt.show()
     
+    print()
+    print()
+    
     #the number of spam and ham
     data.columns = ["category", "text"]
     colors = ['yellowgreen', 'lightcoral']
     data['category'].value_counts().plot(kind = 'bar', colors=colors)
     plt.ylabel("Spam vs Ham")
     plt.show()
+    
+    print()
+    print()
     
     
     
