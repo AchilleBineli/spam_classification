@@ -32,7 +32,7 @@ $pip uninstall keras
 $pip install keras==2.1.2   
 
 
-run the program
+Run the program
 -----
 - SVM model :   
 $python svm.py    
